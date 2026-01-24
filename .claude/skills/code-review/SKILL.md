@@ -1,151 +1,47 @@
-# Code Review Skill
+---
+name: code-review
+description: 코드 품질, 보안, 성능 관점에서 리뷰 수행
+---
 
-## Description
-Performs comprehensive code review with focus on best practices, security, performance, and maintainability.
+# 코드 리뷰 Skill
 
-## Usage
-```
-/code-review [file-path or pattern]
-```
+리뷰 요청 시 다음 관점에서 분석합니다:
 
-### Examples
-```
-/code-review src/App.tsx
-/code-review src/components/**/*.tsx
-/code-review
-```
+## 1. 코드 품질
 
-If no path is provided, reviews all recently modified files.
+- 가독성과 유지보수성
+- 네이밍 컨벤션 준수
+- 중복 코드 여부
+- 적절한 추상화
 
-## Instructions
+## 2. 보안
 
-When this skill is invoked:
+- 하드코딩된 민감 정보
+- XSS 취약점
+- 안전하지 않은 의존성
 
-1. **Identify Target Files**
-   - If file path provided: Review specified file(s)
-   - If pattern provided: Use Glob to find matching files
-   - If no argument: Check `git status` and `git diff` for recently modified files
-   - Prioritize .tsx, .ts, .jsx, .js files
+## 3. 성능
 
-2. **Read and Analyze Code**
-   - Read each target file completely
-   - Analyze code structure, patterns, and logic
-   - Check against project conventions (CLAUDE.md)
+- 불필요한 리렌더링
+- 메모리 누수 가능성
+- 최적화 필요 부분
 
-3. **Review Categories**
+## 4. TypeScript
 
-   **🔒 Security Issues**
-   - XSS vulnerabilities
-   - SQL injection risks
-   - Command injection
-   - Insecure dependencies
-   - Exposed secrets or credentials
-   - OWASP Top 10 vulnerabilities
+- 타입 정의 적절성
+- any 사용 여부
+- 타입 안정성
 
-   **⚡ Performance Issues**
-   - Unnecessary re-renders
-   - Missing memoization
-   - Inefficient loops or algorithms
-   - Large bundle sizes
-   - Memory leaks
-   - Blocking operations
+## 출력 형식
 
-   **🏗️ Code Quality**
-   - Code duplication
-   - Complex functions (cognitive complexity)
-   - Naming conventions
-   - Proper TypeScript typing
-   - Missing error handling
-   - Console.log statements left in code
+### ● Critical
+- [심각한 이슈]
 
-   **♿ Accessibility**
-   - Missing alt text
-   - Keyboard navigation
-   - ARIA labels
-   - Semantic HTML
-   - Color contrast
+### ○ Warning
+- [개선 권장 사항]
 
-   **📚 Best Practices**
-   - React best practices
-   - TypeScript best practices
-   - Component composition
-   - State management
-   - Props drilling
-   - Separation of concerns
+### ◎ Good
+- [잘 작성된 부분]
 
-   **🎨 Code Style**
-   - Consistent formatting
-   - Named exports vs default exports
-   - Component structure
-   - File organization
-
-4. **Generate Review Report**
-
-   Format the review as:
-
-   ```markdown
-   # Code Review Report
-
-   ## 📊 Summary
-   - Files reviewed: X
-   - Issues found: Y
-   - Critical: Z
-   - Warnings: W
-
-   ## 🔴 Critical Issues
-   [List critical issues that must be fixed]
-
-   ### src/example.tsx:42
-   **Issue**: SQL Injection vulnerability
-   **Severity**: Critical
-   **Description**: User input is directly interpolated into SQL query
-   **Recommendation**: Use parameterized queries or ORM
-
-   ## 🟡 Warnings
-   [List warnings and suggestions]
-
-   ### src/component.tsx:15
-   **Issue**: Missing key prop in list
-   **Severity**: Warning
-   **Description**: Missing key prop in map iteration
-   **Recommendation**: Add unique key prop to each item
-
-   ## ✅ Positive Findings
-   [Highlight good practices observed]
-
-   ## 💡 Suggestions
-   [General suggestions for improvement]
-   ```
-
-5. **Prioritize Issues**
-   - Critical: Security vulnerabilities, data loss risks, breaking bugs
-   - High: Performance issues, accessibility problems
-   - Medium: Code quality, best practices violations
-   - Low: Style issues, minor optimizations
-
-6. **Provide Actionable Recommendations**
-   - Include file path and line number
-   - Explain why it's an issue
-   - Provide specific fix or code example
-   - Reference documentation when helpful
-
-## Review Checklist
-
-- [ ] Security vulnerabilities checked
-- [ ] Performance optimizations identified
-- [ ] TypeScript types properly used
-- [ ] Error handling present
-- [ ] Accessibility considerations
-- [ ] Code follows project conventions
-- [ ] No console.log or debug code
-- [ ] Props properly typed
-- [ ] Component structure is clear
-- [ ] No code duplication
-- [ ] Proper naming conventions
-
-## Notes
-- Be constructive and educational
-- Explain the "why" behind recommendations
-- Recognize good code practices
-- Provide code examples when possible
-- Focus on meaningful issues, not nitpicks
+### 💡 Suggestions
+- [추가 제안]
