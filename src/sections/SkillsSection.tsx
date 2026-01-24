@@ -1,36 +1,46 @@
 export const SkillsSection = () => {
   const skillCategories = [
     {
-      title: 'Frontend',
+      title: 'Infrastructure',
       color: 'blue',
       skills: [
-        { name: 'React', level: 90 },
-        { name: 'TypeScript', level: 85 },
-        { name: 'JavaScript', level: 90 },
-        { name: 'HTML/CSS', level: 95 },
-        { name: 'TailwindCSS', level: 85 },
-        { name: 'Next.js', level: 75 },
+        { name: 'Linux (CentOS/Ubuntu)', level: 90 },
+        { name: 'Windows Server', level: 85 },
+        { name: 'HP Server (iLO/IPMI)', level: 90 },
+        { name: 'PXE Boot / Clonezilla', level: 85 },
+        { name: 'Server Hardware', level: 85 },
       ],
     },
     {
-      title: 'Backend',
+      title: 'Networking & Security',
       color: 'green',
       skills: [
-        { name: 'Node.js', level: 80 },
-        { name: 'Express', level: 75 },
-        { name: 'MongoDB', level: 70 },
-        { name: 'PostgreSQL', level: 65 },
+        { name: 'Network Configuration', level: 85 },
+        { name: 'Firewall Management', level: 80 },
+        { name: 'Security Incident Response', level: 85 },
+        { name: 'Traffic Analysis', level: 75 },
+        { name: 'DNS/NAT Configuration', level: 80 },
       ],
     },
     {
-      title: 'Tools & Others',
+      title: 'Web Stack (APM)',
+      color: 'orange',
+      skills: [
+        { name: 'Apache HTTP Server', level: 80 },
+        { name: 'MySQL', level: 75 },
+        { name: 'PHP', level: 70 },
+        { name: 'Shell Scripting', level: 85 },
+      ],
+    },
+    {
+      title: 'Tools & Collaboration',
       color: 'purple',
       skills: [
-        { name: 'Git', level: 85 },
-        { name: 'GitHub', level: 85 },
-        { name: 'VS Code', level: 90 },
-        { name: 'Figma', level: 70 },
-        { name: 'Vite', level: 80 },
+        { name: 'JIRA', level: 90 },
+        { name: 'Confluence/Wiki', level: 85 },
+        { name: 'Slack', level: 90 },
+        { name: 'Git/GitHub', level: 80 },
+        { name: 'Claude Code (AI)', level: 85 },
       ],
     },
   ];
@@ -46,6 +56,11 @@ export const SkillsSection = () => {
         bg: 'bg-green-50',
         border: 'border-green-200',
         progress: 'bg-green-500',
+      },
+      orange: {
+        bg: 'bg-orange-50',
+        border: 'border-orange-200',
+        progress: 'bg-orange-500',
       },
       purple: {
         bg: 'bg-purple-50',
@@ -63,10 +78,10 @@ export const SkillsSection = () => {
           Skills
         </h2>
         <p className="text-center text-gray-600 mb-12 text-lg">
-          다양한 기술 스택을 활용한 개발 경험
+          카페24 IDC 기술지원팀 실무 경험 기반 기술 스택
         </p>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skillCategories.map((category) => {
             const colorClasses = getColorClasses(category.color);
             return (
@@ -74,21 +89,21 @@ export const SkillsSection = () => {
                 key={category.title}
                 className={`${colorClasses.bg} border-2 ${colorClasses.border} rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow`}
               >
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">
                   {category.title}
                 </h3>
                 <div className="space-y-4">
                   {category.skills.map((skill) => (
                     <div key={skill.name}>
                       <div className="flex justify-between mb-1">
-                        <span className="font-semibold text-gray-800">
+                        <span className="font-medium text-gray-800 text-sm">
                           {skill.name}
                         </span>
-                        <span className="text-gray-600">{skill.level}%</span>
+                        <span className="text-gray-600 text-sm">{skill.level}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
-                          className={`${colorClasses.progress} h-2.5 rounded-full transition-all duration-500`}
+                          className={`${colorClasses.progress} h-2 rounded-full transition-all duration-500`}
                           style={{ width: `${skill.level}%` }}
                         ></div>
                       </div>

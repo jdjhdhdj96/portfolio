@@ -12,20 +12,20 @@ export const AboutSection = () => {
             <h3 className="text-2xl font-bold text-gray-900 mb-4">프로필</h3>
             <div className="space-y-4 text-gray-700">
               <div>
-                <p className="font-semibold text-gray-900">이름</p>
-                <p>홍길동</p>
-              </div>
-              <div>
-                <p className="font-semibold text-gray-900">이메일</p>
-                <p>developer@example.com</p>
-              </div>
-              <div>
                 <p className="font-semibold text-gray-900">전문 분야</p>
-                <p>Frontend Development, React, TypeScript</p>
+                <p>IDC 인프라 운영, 서버 기술지원</p>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900">핵심 역량</p>
+                <p>Linux/Windows 서버 관리, 네트워크 구성, 보안 관제</p>
               </div>
               <div>
                 <p className="font-semibold text-gray-900">관심사</p>
-                <p>UI/UX 디자인, 웹 접근성, 성능 최적화</p>
+                <p>AI 기반 업무 자동화, Claude Code 활용, DevOps</p>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900">특기사항</p>
+                <p>이 포트폴리오 자체가 Claude Code로 제작되었습니다</p>
               </div>
             </div>
           </div>
@@ -35,31 +35,34 @@ export const AboutSection = () => {
             <h3 className="text-2xl font-bold text-gray-900 mb-6">경력 요약</h3>
             <div className="space-y-6">
               <div className="border-l-4 border-blue-500 pl-6 py-2">
-                <h4 className="text-xl font-semibold text-gray-900">프론트엔드 개발자</h4>
-                <p className="text-gray-600 mb-2">ABC 테크 | 2022 - 현재</p>
+                <h4 className="text-xl font-semibold text-gray-900">IDC 기술지원 엔지니어</h4>
+                <p className="text-gray-600 mb-2">카페24 매니지드기술지원팀 | 2023</p>
                 <ul className="list-disc list-inside text-gray-700 space-y-1">
-                  <li>React 기반 웹 애플리케이션 개발 및 유지보수</li>
-                  <li>TypeScript 도입으로 코드 안정성 30% 향상</li>
-                  <li>성능 최적화를 통한 로딩 시간 50% 단축</li>
+                  <li>서버호스팅 신규 세팅 및 OS 설치 (CentOS, Ubuntu, Windows Server)</li>
+                  <li>HP/SuperMicro 서버 하드웨어 관리 (iLO/IPMI)</li>
+                  <li>침해사고 대응 및 보안 관제 (DDoS, 랜섬웨어)</li>
+                  <li>서버 모니터링 및 장애 대응</li>
                 </ul>
               </div>
 
               <div className="border-l-4 border-purple-500 pl-6 py-2">
-                <h4 className="text-xl font-semibold text-gray-900">주니어 개발자</h4>
-                <p className="text-gray-600 mb-2">XYZ 스타트업 | 2020 - 2022</p>
+                <h4 className="text-xl font-semibold text-gray-900">주요 업무</h4>
+                <p className="text-gray-600 mb-2">SK-IDC 인프라 운영</p>
                 <ul className="list-disc list-inside text-gray-700 space-y-1">
-                  <li>반응형 웹 페이지 개발</li>
-                  <li>RESTful API 연동 및 상태 관리</li>
-                  <li>UI/UX 개선을 통한 사용자 만족도 향상</li>
+                  <li>PXE Boot / Clonezilla 기반 OS 배포 자동화</li>
+                  <li>네트워크 구성 및 방화벽 설정</li>
+                  <li>JIRA 기반 업무 프로세스 관리</li>
+                  <li>고객사 기술 지원 및 트러블슈팅</li>
                 </ul>
               </div>
 
-              <div className="border-l-4 border-indigo-500 pl-6 py-2">
-                <h4 className="text-xl font-semibold text-gray-900">인턴</h4>
-                <p className="text-gray-600 mb-2">DEF 회사 | 2019 - 2020</p>
+              <div className="border-l-4 border-green-500 pl-6 py-2">
+                <h4 className="text-xl font-semibold text-gray-900">Claude Code 활용</h4>
+                <p className="text-gray-600 mb-2">AI 기반 개발 역량</p>
                 <ul className="list-disc list-inside text-gray-700 space-y-1">
-                  <li>HTML, CSS, JavaScript 기반 웹 페이지 제작</li>
-                  <li>Git을 활용한 협업 경험</li>
+                  <li>React + TypeScript + TailwindCSS 웹 개발</li>
+                  <li>GitHub Actions CI/CD 파이프라인 구성</li>
+                  <li>Conventional Commits 기반 버전 관리</li>
                 </ul>
               </div>
             </div>

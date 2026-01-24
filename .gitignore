@@ -33,3 +33,9 @@ dist-ssr
 *.key
 credentials.json
 .claude.json
+
+# Notion exports
+notion-data/
+notion-export/
+*.zip
+*Zone.Identifier
