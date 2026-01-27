@@ -1,152 +1,381 @@
+import { useState, useRef, useEffect } from 'react'
+import { useTheme } from '../App'
+import { projects, categoryLabels, categoryColors, type ProjectCategory, type Project } from '../data/projects'
+import { ProjectModal } from '../components/ProjectModal'
+
 export const ProjectsSection = () => {
-  const projects = [
-    {
-      id: 1,
-      title: 'Claude Code Portfolio',
-      description: 'Claude Code AI를 활용하여 제작한 반응형 포트폴리오. React + TypeScript + TailwindCSS 기반으로 GitHub Actions를 통한 자동 배포 구성',
-      tags: ['React', 'TypeScript', 'TailwindCSS', 'Claude Code', 'GitHub Actions'],
-      image: 'https://via.placeholder.com/400x250/8b5cf6/ffffff?text=Claude+Code+Portfolio',
-      github: 'https://github.com/jdjhdhdj96/portfolio',
-      demo: 'https://jdjhdhdj96.github.io/portfolio/',
-      highlight: true,
-    },
-    {
-      id: 2,
-      title: '서버 세팅 자동화',
-      description: 'PXE Boot와 Clonezilla를 활용한 서버 OS 배포 자동화. CentOS, Ubuntu, Windows Server 이미지 관리 및 배포',
-      tags: ['Linux', 'PXE Boot', 'Clonezilla', 'Shell Script'],
-      image: 'https://via.placeholder.com/400x250/3b82f6/ffffff?text=Server+Setup',
-      github: null,
-      demo: null,
-    },
-    {
-      id: 3,
-      title: '침해사고 대응',
-      description: 'DDoS 공격, TCP Flooding, 랜섬웨어 등 보안 위협 탐지 및 대응. 트래픽 분석을 통한 원인 파악 및 고객 안내',
-      tags: ['Security', 'Traffic Analysis', 'Firewall', 'Incident Response'],
-      image: 'https://via.placeholder.com/400x250/ef4444/ffffff?text=Security+Response',
-      github: null,
-      demo: null,
-    },
-    {
-      id: 4,
-      title: '서버 모니터링 시스템',
-      description: 'SMS 알림 기반 서버 상태 모니터링. 디스크 용량, 프로세스 상태, 네트워크 연결 등 실시간 감시 및 장애 대응',
-      tags: ['Monitoring', 'SMS Alert', 'Shell Script', 'Linux'],
-      image: 'https://via.placeholder.com/400x250/10b981/ffffff?text=Monitoring',
-      github: null,
-      demo: null,
-    },
-    {
-      id: 5,
-      title: 'IDC 인프라 관리',
-      description: 'SK-IDC 기반 서버호스팅 인프라 운영. HP/SuperMicro 서버 하드웨어 관리, iLO/IPMI 원격 콘솔, 네트워크 구성',
-      tags: ['HP Server', 'iLO/IPMI', 'Network', 'Hardware'],
-      image: 'https://via.placeholder.com/400x250/f59e0b/ffffff?text=IDC+Infra',
-      github: null,
-      demo: null,
-    },
-    {
-      id: 6,
-      title: 'JIRA 기반 업무 관리',
-      description: 'JIRA를 활용한 체계적인 업무 프로세스 관리. 서버 세팅, 장애 대응, 회수 등 전체 라이프사이클 추적',
-      tags: ['JIRA', 'Confluence', 'Workflow', 'Documentation'],
-      image: 'https://via.placeholder.com/400x250/6366f1/ffffff?text=JIRA+Workflow',
-      github: null,
-      demo: null,
-    },
-  ];
+  const { theme } = useTheme()
+  const [activeFilter, setActiveFilter] = useState<ProjectCategory | 'all'>('all')
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set())
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const isDark = theme === 'dark'
+
+  const categories: Array<{ key: ProjectCategory | 'all'; label: string }> = [
+    { key: 'all', label: '전체' },
+    { key: 'development', label: '개발' },
+    { key: 'infrastructure', label: '인프라' },
+    { key: 'security', label: '보안' },
+    { key: 'automation', label: '자동화' },
+    { key: 'management', label: '관리' },
+  ]
+
+  // Lazy loading for images
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement
+            const projectId = parseInt(img.dataset.projectId || '0')
+            if (projectId) {
+              setLoadedImages((prev) => new Set([...prev, projectId]))
+            }
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { rootMargin: '100px' }
+    )
+
+    const images = document.querySelectorAll('[data-project-id]')
+    images.forEach((img) => observer.observe(img))
+
+    return () => observer.disconnect()
+  }, [activeFilter])
+
+  const filteredProjects =
+    activeFilter === 'all'
+      ? projects
+      : projects.filter((p) => p.category === activeFilter)
+
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setTimeout(() => setSelectedProject(null), 300)
+  }
 
   return (
-    <section className="min-h-screen bg-white py-20">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 text-center">
-          Projects & Experience
-        </h2>
-        <p className="text-center text-gray-600 mb-12 text-lg">
-          카페24 IDC 기술지원팀 주요 업무 및 개인 프로젝트
-        </p>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className={`bg-white border-2 rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 group ${
-                project.highlight
-                  ? 'border-purple-400 ring-2 ring-purple-200'
-                  : 'border-gray-200 hover:border-blue-300'
+    <>
+      <section
+        ref={sectionRef}
+        className={`section-padding ${isDark ? 'bg-slate-900' : 'bg-white'}`}
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          {/* Section header */}
+          <div className="text-center mb-10 sm:mb-12 animate-on-scroll animate-fade-in-up">
+            <span
+              className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
+                isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-600'
               }`}
             >
-              {/* 프로젝트 이미지 */}
-              <div className="relative overflow-hidden h-48">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                {project.highlight && (
-                  <div className="absolute top-3 right-3 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    Claude Code
+              프로젝트
+            </span>
+            <h2
+              className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-4 ${
+                isDark ? 'text-white' : 'text-slate-900'
+              }`}
+            >
+              Projects & Experience
+            </h2>
+            <p
+              className={`text-base sm:text-lg max-w-2xl mx-auto ${
+                isDark ? 'text-slate-400' : 'text-slate-600'
+              }`}
+            >
+              카페24 IDC 기술지원팀 주요 업무 및 개인 프로젝트
+            </p>
+          </div>
+
+          {/* Filter buttons */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 animate-on-scroll animate-fade-in-up animation-delay-200">
+            {categories.map((cat) => (
+              <button
+                key={cat.key}
+                onClick={() => setActiveFilter(cat.key)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  activeFilter === cat.key
+                    ? isDark
+                      ? 'bg-white text-slate-900'
+                      : 'bg-slate-900 text-white'
+                    : isDark
+                      ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Projects grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {filteredProjects.map((project, index) => {
+              const colors = categoryColors[project.category]
+
+              return (
+                <div
+                  key={project.id}
+                  className={`animate-on-scroll animate-fade-in-up group rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer ${
+                    isDark
+                      ? 'bg-slate-800 border border-slate-700'
+                      : 'bg-white border border-slate-200 shadow-sm'
+                  } ${
+                    project.highlight
+                      ? isDark
+                        ? 'ring-2 ring-purple-500/50 border-purple-500/50'
+                        : 'ring-2 ring-purple-400 border-purple-400'
+                      : isDark
+                        ? 'hover:border-blue-500/50'
+                        : 'hover:border-blue-300 hover:shadow-lg'
+                  }`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                  onClick={() => handleProjectClick(project)}
+                >
+                  {/* Project image with overlay */}
+                  <div className="relative overflow-hidden aspect-[16/10]">
+                    {/* Loading placeholder */}
+                    <div
+                      data-project-id={project.id}
+                      className={`absolute inset-0 ${
+                        isDark ? 'bg-slate-700' : 'bg-slate-200'
+                      } ${loadedImages.has(project.id) ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div
+                          className={`w-8 h-8 border-2 border-t-transparent rounded-full animate-spin ${
+                            isDark ? 'border-slate-500' : 'border-slate-400'
+                          }`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Image */}
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      loading="lazy"
+                      onLoad={() =>
+                        setLoadedImages((prev) => new Set([...prev, project.id]))
+                      }
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.src = `https://via.placeholder.com/800x500/${
+                          project.category === 'development' ? '3b82f6' :
+                          project.category === 'security' ? 'ef4444' :
+                          project.category === 'infrastructure' ? '10b981' :
+                          project.category === 'automation' ? 'f59e0b' : '8b5cf6'
+                        }/ffffff?text=${encodeURIComponent(project.title)}`
+                      }}
+                      className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
+                        loadedImages.has(project.id) ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    />
+
+                    {/* Gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
+                        {/* Quick view button */}
+                        <button
+                          className="px-6 py-3 bg-white/20 backdrop-blur-sm text-white font-medium rounded-lg hover:bg-white/30 transition-colors flex items-center gap-2"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleProjectClick(project)
+                          }}
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                          상세보기
+                        </button>
+
+                        {/* Action buttons */}
+                        <div className="flex gap-3">
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+                              aria-label="View GitHub repository"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                              </svg>
+                            </a>
+                          )}
+                          {project.demo && (
+                            <a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+                              aria-label="View live demo"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Category badge */}
+                    <div className="absolute top-3 left-3">
+                      <span className={`inline-flex px-3 py-1 text-xs font-bold rounded-full shadow-lg ${
+                        isDark ? colors.badgeDark : colors.badge
+                      }`}>
+                        {categoryLabels[project.category]}
+                      </span>
+                    </div>
+
+                    {/* Highlight badge */}
+                    {project.highlight && (
+                      <div className="absolute top-3 right-3">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded-full shadow-lg">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          Featured
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
 
-              {/* 프로젝트 정보 */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* 기술 스택 태그 */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        tag === 'Claude Code'
-                          ? 'bg-purple-100 text-purple-700'
-                          : 'bg-blue-100 text-blue-700'
+                  {/* Project info */}
+                  <div className="p-5 sm:p-6">
+                    <h3
+                      className={`text-lg sm:text-xl font-bold mb-2 group-hover:text-blue-500 transition-colors ${
+                        isDark ? 'text-white' : 'text-slate-900'
                       }`}
                     >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                      {project.title}
+                    </h3>
+                    <p
+                      className={`text-sm leading-relaxed mb-4 line-clamp-2 ${
+                        isDark ? 'text-slate-400' : 'text-slate-600'
+                      }`}
+                    >
+                      {project.description}
+                    </p>
 
-                {/* 링크 버튼 */}
-                {(project.github || project.demo) && (
-                  <div className="flex gap-3">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 text-center px-4 py-2 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors text-sm"
-                      >
-                        GitHub
-                      </a>
-                    )}
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 text-center px-4 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors text-sm"
-                      >
-                        Live Demo
-                      </a>
-                    )}
+                    {/* Period & Role */}
+                    <div className="flex flex-wrap gap-3 mb-4 text-xs">
+                      <div className={`flex items-center gap-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>{project.period}</span>
+                      </div>
+                      <div className={`flex items-center gap-1.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span className="truncate">{project.role}</span>
+                      </div>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            tag === 'Claude AI' || tag === 'Claude Code'
+                              ? isDark
+                                ? 'bg-purple-500/20 text-purple-400'
+                                : 'bg-purple-100 text-purple-700'
+                              : isDark
+                                ? 'bg-slate-700 text-slate-300'
+                                : 'bg-slate-100 text-slate-600'
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 3 && (
+                        <span
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            isDark
+                              ? 'bg-slate-700 text-slate-400'
+                              : 'bg-slate-100 text-slate-500'
+                          }`}
+                        >
+                          +{project.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Stats - achievements count */}
+                    <div className={`pt-4 border-t ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
+                      <div className="flex items-center justify-between text-xs">
+                        <span className={isDark ? 'text-slate-400' : 'text-slate-500'}>
+                          주요 성과
+                        </span>
+                        <span className={`font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                          {project.achievements.length}개
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Empty state */}
+          {filteredProjects.length === 0 && (
+            <div className="text-center py-20">
+              <div className={`text-6xl mb-4`}>🔍</div>
+              <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                프로젝트가 없습니다
+              </h3>
+              <p className={isDark ? 'text-slate-400' : 'text-slate-600'}>
+                다른 카테고리를 선택해보세요
+              </p>
             </div>
-          ))}
+          )}
+
+          {/* View more CTA */}
+          <div className="text-center mt-10 sm:mt-12 animate-on-scroll animate-fade-in-up animation-delay-400">
+            <a
+              href="https://github.com/jdjhdhdj96"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                isDark
+                  ? 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-700'
+                  : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+              }`}
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  fillRule="evenodd"
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              View More on GitHub
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
-  );
-};
+      </section>
+
+      {/* Project Modal */}
+      <ProjectModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+    </>
+  )
+}
