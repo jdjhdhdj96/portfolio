@@ -278,6 +278,60 @@ export const App = () => {
             <div className="card-header">
               <h3 className="card-title">프로젝트</h3>
             </div>
+
+            {/* 카테고리 1: IDC 인프라 프로젝트 */}
+            <div style={{ padding: 'var(--spacing-md)', borderBottom: '2px solid var(--border-color)' }}>
+              <h4 style={{ color: 'var(--color-blue)', fontSize: '1.125rem', marginBottom: 'var(--spacing-md)', fontWeight: 700 }}>
+                📦 IDC 인프라 프로젝트
+              </h4>
+            </div>
+
+            <div className="table">
+              {/* 대규모 신규서버 입고 */}
+              <div className="table-row">
+                <div className="table-cell bold">대규모 신규서버 입고</div>
+                <div className="table-cell muted">신규 서비스 라인업 서버 입고(100대 이상)</div>
+                <div className="table-cell">
+                  <span className="table-badge active">완료</span>
+                </div>
+              </div>
+              <div style={{ padding: 'var(--spacing-md)', backgroundColor: 'var(--card-bg)', borderTop: '1px solid var(--border-color)' }}>
+                <h4 style={{ color: 'var(--text-primary)', fontSize: '0.9375rem', marginBottom: '0.5rem', fontWeight: 600 }}>
+                  📌 프로젝트 개요
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1rem', lineHeight: 1.6 }}>
+                  신규 서비스 라인업 출시를 위한 대규모 서버 입고 프로젝트. 100대 이상의 물리 서버를 체계적으로 입고하고 상품화하여
+                  고객에게 제공할 수 있도록 인프라 세팅부터 네트워크 구성, OS 설치, 데이터 관리까지 전 과정을 수행.
+                </p>
+                <h4 style={{ color: 'var(--text-primary)', fontSize: '0.9375rem', marginBottom: '0.5rem', fontWeight: 600 }}>
+                  🎯 주요 기능
+                </h4>
+                <ul style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', paddingLeft: '1.5rem', lineHeight: 1.6, marginBottom: '1rem' }}>
+                  <li>인프라 세팅: 네트워크 스위치 구성, ACL(접근 제어 목록) 정책 설정</li>
+                  <li>HW 세팅: 서버 메모리 증설 및 구성, 디스크 RAID 구성 및 파티셔닝</li>
+                  <li>상품화: Windows Server, CentOS, Ubuntu 등 다양한 OS 설치 및 세팅</li>
+                  <li>네트워크 세팅: IPMI(원격 관리) 설정, Console 접근 구성, IP 할당</li>
+                  <li>입고 후 데이터 갱신: 자산 관리 DB 업데이트, 서버 인벤토리 등록</li>
+                </ul>
+                <h4 style={{ color: 'var(--text-primary)', fontSize: '0.9375rem', marginBottom: '0.5rem', fontWeight: 600 }}>
+                  💡 성과
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6 }}>
+                  • 100대 이상 서버를 2주 내 입고 및 상품화 완료<br/>
+                  • 체계적인 프로세스 수립으로 오류율 최소화<br/>
+                  • 신규 서비스 라인업 적기 출시 기여<br/>
+                  • 서버 자산 관리 데이터베이스 정확도 향상
+                </p>
+              </div>
+            </div>
+
+            {/* 카테고리 2: 업무 자동화 프로젝트 */}
+            <div style={{ padding: 'var(--spacing-md)', borderBottom: '2px solid var(--border-color)', borderTop: '3px solid var(--border-color)', marginTop: 'var(--spacing-lg)' }}>
+              <h4 style={{ color: 'var(--color-purple)', fontSize: '1.125rem', marginBottom: 'var(--spacing-md)', fontWeight: 700 }}>
+                ⚡ 업무 자동화 프로젝트
+              </h4>
+            </div>
+
             <div className="table">
               {/* Windows 세팅 완료 체크리스트 */}
               <div className="table-row">
@@ -316,7 +370,7 @@ export const App = () => {
 
               {/* Linux 세팅 완료 체크리스트 */}
               <div className="table-row" style={{ borderTop: '2px solid var(--border-color)' }}>
-                <div className="table-cell bold">Linux 세팅 완료 체크리스트 (Bash Script)</div>
+                <div className="table-cell bold">Linux 세팅 완료 체크리스트 (Bash)</div>
                 <div className="table-cell muted">다중 OS 지원 서버 검증 스크립트</div>
                 <div className="table-cell">
                   <span className="table-badge active">완료</span>
@@ -351,7 +405,7 @@ export const App = () => {
 
               {/* Linux 재부팅 전 체크리스트 */}
               <div className="table-row" style={{ borderTop: '2px solid var(--border-color)' }}>
-                <div className="table-cell bold">Linux 서버 재부팅 전 Check List (Bash Script)</div>
+                <div className="table-cell bold">Linux 서버 재부팅 전 체크리스트 (Bash)</div>
                 <div className="table-cell muted">시스템 상태 점검 및 오류 탐지</div>
                 <div className="table-cell">
                   <span className="table-badge active">완료</span>
