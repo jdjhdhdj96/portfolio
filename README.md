@@ -13,7 +13,7 @@
 
 ## 📌 프로젝트 소개
 
-> **IDC 서버호스팅팀 엔지니어의 실무 경력 중심 포트폴리오**
+> **카페24 IDC 기술지원 엔지니어의 실무 경력 중심 포트폴리오**
 >
 > Claude Code를 활용하여 제작한 React 기반 포트폴리오 웹사이트
 
@@ -29,22 +29,21 @@ React 19, TypeScript 5.9, TailwindCSS 4.1 등 최신 웹 기술 스택을 활용
 ## ✨ 주요 기능
 
 ### 🎯 Hero Section
-- 타이핑 애니메이션과 그라데이션 효과
-- 직무 및 기술 스택 강조
-- 스크롤 다운 인디케이터
+- 그라데이션 타이틀 및 직무 강조 ("카페24 IDC 기술지원 엔지니어")
+- **통계 카드 그리드**: 경험 연수, 프로젝트 수, 관리 서버 수 (카운터 애니메이션)
+- CTA 버튼으로 섹션 이동
 - 완전한 반응형 레이아웃
 
 ### 👤 About Section
-- IDC 실무 경력 중심 자기소개
-- Profile Grid: 이름, 나이, 위치, 이메일, 학력
-- 다크 대시보드 스타일 카드
+- **프로필 카드**: 전문 분야, 핵심 역량, 관심사, 특기사항
+- **경력 요약**: IDC 기술지원 엔지니어 → 주요 업무 → Claude Code 활용
 - 부드러운 페이드인 애니메이션
 
 ### 💡 Skills Section
-- **확장 가능한 스킬 카드**: 클릭 시 세부 기술 스택 표시
-- **4개 카테고리**: Infrastructure, Security, Web Stack, Tools & Collaboration
+- **4개 카테고리**: Infrastructure, Networking & Security, Web Stack (APM), Tools & Collaboration
+- **카테고리 필터 버튼**: 전체 / 개별 카테고리별 필터링
 - 프로그레스 바를 통한 숙련도 시각화 (실무 경험 기반)
-- 인터랙티브 hover 효과
+- 스킬 수, 평균 숙련도 등 요약 통계
 
 ### 🚀 Projects Section
 - **6개 실무 프로젝트**: IDC 현장 경험 중심
@@ -59,9 +58,9 @@ React 19, TypeScript 5.9, TailwindCSS 4.1 등 최신 웹 기술 스택을 활용
 - GitHub 연동 및 데모 링크
 
 ### 📬 Contact Section
-- 이메일, GitHub, 블로그 등 연락처
-- 소셜 미디어 링크
-- 반응형 아이콘 레이아웃
+- **연락처 카드**: Email, GitHub, Location
+- **포트폴리오 특징 소개**: Claude Code 활용, React + TypeScript, TailwindCSS, GitHub Actions
+- GitHub 저장소 소스코드 확인 CTA
 
 ### 🎨 고급 기능
 - **다크 테마 대시보드 디자인**: 전문적이고 모던한 UI
@@ -106,8 +105,7 @@ portfolio/
 │   │   ├── ProjectsSection.tsx   # 프로젝트 (카테고리별)
 │   │   └── ContactSection.tsx    # 연락처
 │   ├── data/                # 정적 데이터 (TypeScript)
-│   │   ├── projects.ts      # 6개 실무 프로젝트 데이터
-│   │   └── skills.ts        # 스킬 카테고리 및 상세
+│   │   └── projects.ts      # 6개 실무 프로젝트 데이터
 │   ├── App.tsx              # 메인 앱
 │   └── main.tsx             # 진입점
 ├── CLAUDE.md                # 개발 가이드
@@ -120,7 +118,7 @@ portfolio/
 
 ## 💼 주요 프로젝트 (IDC 실무 경험)
 
-이 포트폴리오는 SK-IDC 서버호스팅팀에서의 실제 업무 경험을 기반으로 구성되었습니다.
+이 포트폴리오는 카페24 IDC 기술지원팀에서의 실제 업무 경험을 기반으로 구성되었습니다.
 
 ### 1️⃣ Claude Code Portfolio (개발)
 - React 19 + TypeScript + TailwindCSS 4 기반 포트폴리오
@@ -207,7 +205,6 @@ npm run deploy
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://jdjhdhdj96.github.io/portfolio/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jdjhdhdj96)
-[![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-email@example.com)
 
 </div>
 
